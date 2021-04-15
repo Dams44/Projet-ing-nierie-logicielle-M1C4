@@ -11,7 +11,7 @@ import metier.VehiculeControler;
 
 public class Dispatcher {
 
-	// Variables d’instances
+	// Variables dï¿½instances
 	Dispatcher myDispatcher;
 	VehiculeControler vehiculeControler;
 
@@ -27,7 +27,7 @@ public class Dispatcher {
 		vehicule.start();
 
 		//Boucle qui tourne en permanence
-		//Elle permet de lire les messages envoyer par le robot et d'exécuter la bonne méthode du VehiculeControler
+		//Elle permet de lire les messages envoyer par le robot et d'exï¿½cuter la bonne mï¿½thode du VehiculeControler
 			while (stop) {
 				try {
 					commande = (int) in.readByte();
@@ -110,6 +110,9 @@ public class Dispatcher {
 					case 14:
 						vehicule.arret();
 						break;
+						
+					case 99:
+						vehicule.modeAutomatic(50, 50);
 					case 9:
 						vehicule.stop();
 						stop = false;
@@ -143,13 +146,13 @@ public class Dispatcher {
 	}
 
 	
-	//Méthode permettant la connection avec le smartphone
+	//Mï¿½thode permettant la connection avec le smartphone
 	public static void connect() {
 		System.out.println("En attente");
 		//Mise en place de la connection bluetooth
 		BTConnector BTconnector = (BTConnector) Bluetooth.getNXTCommConnector();
 		BTConnect = (BTConnection) BTconnector.waitForConnection(30000, NXTConnection.RAW);
-		//Ouverture des l'écoute et de l'envoi de message
+		//Ouverture des l'ï¿½coute et de l'envoi de message
 		out = BTConnect.openDataOutputStream();
 		in = BTConnect.openDataInputStream();
 	}

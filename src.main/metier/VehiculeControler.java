@@ -8,7 +8,7 @@ import lejos.hardware.port.SensorPort;
 
 /**
 * Classe VehiculeControler.
-* Cette classe définit les méthodes du véhicule EV3.
+* Cette classe dï¿½finit les mï¿½thodes du vï¿½hicule EV3.
 * @version 1.0
 */
 public class VehiculeControler {
@@ -20,7 +20,8 @@ public class VehiculeControler {
 	private CapteurObstacle capteurPresence;
 	private CapteurContacte capteurContacte;
 	int vitesseRange = 25;
-
+	
+	private boolean automatic;
 	/**
 	 * Mise en place du VehiculeControler avec l'instanciation des moteurs
 	 */
@@ -36,10 +37,26 @@ public class VehiculeControler {
 		vitesse = 0;
 		saveVitesseMoteurGauche = 0;
 		saveVitesseMoteurDroit = 0;
+		
+		this.automatic = false;
 	}
 
+	public void modeAutomatic(int vitesseAjout, int vitesseMax) {
+		
+	this.automatic = true;
+	this.forward(vitesseAjout, vitesseMax);
+	this.backward(vitesseAjout, vitesseMax);
+	this.left(vitesseAjout, vitesseMax);
+	this.backward(vitesseAjout, vitesseMax);
+	this.right(vitesseAjout, vitesseMax);
+	
+	System.out.println("Robot en mode Automatic");
+	this.setAutomatic(false);
+	}
+	
+	
 	/**
-	 * Methode permettant de passer le véhicule d'état off à l'état neutral
+	 * Methode permettant de passer le vï¿½hicule d'ï¿½tat off ï¿½ l'ï¿½tat neutral
 	 */
 	public void start() {
 		if (etatVehicule == Etat.off) {
@@ -54,7 +71,7 @@ public class VehiculeControler {
 	 * Methode permettant l'arret des moteur et passage a l'etat off.
 	 */
 	public void stop() {
-		// Si l'état different de off. On arrête le moteur?
+		// Si l'ï¿½tat different de off. On arrï¿½te le moteur?
 		if (etatVehicule != Etat.off) {
 			etatVehicule = Etat.off;
 			moteurGauche.getMotorLejos().startSynchronization();
@@ -72,8 +89,8 @@ public class VehiculeControler {
 
 	/**
 	 * Methode permettant de faire avancer le robot EV3 vers l'avant.
-	 * @param vitesseAjout : correspond à la vitesse qu'on incrémente au moteur
-	 * @param vitesseMax : correspond à la vitesse maximum que peut atteindre le robot en marche avant.
+	 * @param vitesseAjout : correspond ï¿½ la vitesse qu'on incrï¿½mente au moteur
+	 * @param vitesseMax : correspond ï¿½ la vitesse maximum que peut atteindre le robot en marche avant.
 	 */
 	public void forward(int vitesseAjout,int vitesseMax) {
 		// On verifie si il y a un obstacle avant de faire avance le robot
@@ -89,7 +106,7 @@ public class VehiculeControler {
 				saveVitesseMoteurGauche = moteurGauche.getVitesse();
 				saveVitesseMoteurDroit = moteurDroit.getVitesse();
 				System.out.println("forward() : le moteur tourne en avant");
-				//On vérifie que le moteur n'atteint pas la vitesse max
+				//On vï¿½rifie que le moteur n'atteint pas la vitesse max
 				if (moteurGauche.getVitesse()+ vitesseAjout < vitesseMax && moteurDroit.getVitesse()+ vitesseAjout < vitesseMax) {
 					moteurGauche.getMotorLejos().startSynchronization();
 					moteurGauche.setVitesse(moteurGauche.getVitesse() + vitesseAjout);
@@ -102,7 +119,7 @@ public class VehiculeControler {
 				} else {
 					System.out.println("up() : la vitesse est au maximum");
 				}
-				//Si l'état est déjà à forward alors on augmente juste la vitesse des moteurs
+				//Si l'ï¿½tat est dï¿½jï¿½ ï¿½ forward alors on augmente juste la vitesse des moteurs
 			} else if (etatVehicule == Etat.forward) {
 				moteurGauche.getMotorLejos().startSynchronization();
 				moteurGauche.setVitesse(vitesse);
@@ -111,7 +128,7 @@ public class VehiculeControler {
 				saveVitesseMoteurGauche = moteurGauche.getVitesse();
 				saveVitesseMoteurDroit = moteurDroit.getVitesse();
 				System.out.println("forward() : le moteur tourne en avant");
-				//On vérifie que le moteur n'atteint pas la vitesse max
+				//On vï¿½rifie que le moteur n'atteint pas la vitesse max
 				if (moteurGauche.getVitesse()+ vitesseAjout < vitesseMax && moteurDroit.getVitesse()+ vitesseAjout < vitesseMax) {
 					moteurGauche.getMotorLejos().startSynchronization();
 					moteurGauche.setVitesse(moteurGauche.getVitesse() + vitesseAjout);
@@ -124,7 +141,7 @@ public class VehiculeControler {
 				} else {
 					System.out.println("up() : la vitesse est au maximum");
 				}
-				//Si il était en marche arrière alors, on le fait passer à nouveau en etat forward.
+				//Si il ï¿½tait en marche arriï¿½re alors, on le fait passer ï¿½ nouveau en etat forward.
 			} else if(etatVehicule == Etat.backward) {
 				moteurGauche.stopped();
 				moteurDroit.stopped();
@@ -157,7 +174,7 @@ public class VehiculeControler {
 	}
 	
 	/**
-	 * Methode permettant d'arreter le véhicule en stoppant les deux moteurs.
+	 * Methode permettant d'arreter le vï¿½hicule en stoppant les deux moteurs.
 	 */
 	public void arret() {
 		moteurGauche.getMotorLejos().startSynchronization();
@@ -172,13 +189,13 @@ public class VehiculeControler {
 	
 	/**
 	 * Methode permettant de faire reculer le robot EV3 vers l'avant.
-	 * @param vitesseAjout : correspond à la vitesse qu'on incrémente au moteur
-	 * @param vitesseMax : correspond à la vitesse maximum que peut atteindre le robot en marche avant.
+	 * @param vitesseAjout : correspond ï¿½ la vitesse qu'on incrï¿½mente au moteur
+	 * @param vitesseMax : correspond ï¿½ la vitesse maximum que peut atteindre le robot en marche avant.
 	 */
 	public void backward(int vitesseAjout,int vitesseMax) {
 		//On verifie que le capteur d'obstacle ne soit pas enclenche avant de reculer.
 		if(!capteurContacte.contactObstacle()) {
-			// Modification de l'etat du vehicule en fonction de son état actuel.
+			// Modification de l'etat du vehicule en fonction de son ï¿½tat actuel.
 			if (etatVehicule == Etat.neutral) {
 				etatVehicule = Etat.backward;
 				moteurGauche.getMotorLejos().startSynchronization();
@@ -189,7 +206,7 @@ public class VehiculeControler {
 				saveVitesseMoteurGauche = moteurGauche.getVitesse();
 				saveVitesseMoteurDroit = moteurDroit.getVitesse();
 				System.out.println("backward() : le moteur tourne en arriere");
-				//On vérifie que le moteur n'atteint pas la vitesse max
+				//On vï¿½rifie que le moteur n'atteint pas la vitesse max
 				if (moteurGauche.getVitesse()+ vitesseAjout < vitesseMax && moteurDroit.getVitesse()+ vitesseAjout < vitesseMax) {
 					moteurGauche.getMotorLejos().startSynchronization();
 					moteurGauche.setVitesse(moteurGauche.getVitesse() + vitesseAjout);
@@ -202,7 +219,7 @@ public class VehiculeControler {
 				} else {
 					System.out.println("up() : la vitesse est au maximum");
 				}
-				//Si l'état est déjà à backward alors on augmente les vitesses des moteurs
+				//Si l'ï¿½tat est dï¿½jï¿½ ï¿½ backward alors on augmente les vitesses des moteurs
 			} else if (etatVehicule == Etat.backward) {
 				moteurGauche.getMotorLejos().startSynchronization();
 				moteurGauche.setVitesse(vitesse);
@@ -223,7 +240,7 @@ public class VehiculeControler {
 				} else {
 					System.out.println("up() : la vitesse est au maximum");
 				}
-				// Modification de l'etat du vehicule en fonction de son état actuel.
+				// Modification de l'etat du vehicule en fonction de son ï¿½tat actuel.
 			} else if (etatVehicule == Etat.forward) {
 				moteurGauche.stopped();
 				moteurDroit.stopped();
@@ -235,7 +252,7 @@ public class VehiculeControler {
 				vitesse = vitesseRange;
 				saveVitesseMoteurGauche = moteurGauche.getVitesse();
 				saveVitesseMoteurDroit = moteurDroit.getVitesse();
-				//On vérifie que le moteur n'atteint pas la vitesse max
+				//On vï¿½rifie que le moteur n'atteint pas la vitesse max
 				if (moteurGauche.getVitesse()+ vitesseAjout < vitesseMax && moteurDroit.getVitesse()+ vitesseAjout < vitesseMax) {
 					moteurGauche.getMotorLejos().startSynchronization();
 					moteurGauche.setVitesse(moteurGauche.getVitesse() + vitesseAjout);
@@ -249,7 +266,7 @@ public class VehiculeControler {
 					System.out.println("up() : la vitesse est au maximum");
 				}
 			}else {
-				System.out.println("backward() : impossible de faire tourner le moteur en arrière");
+				System.out.println("backward() : impossible de faire tourner le moteur en arriï¿½re");
 			}
 		}else {
 			moteurGauche.getMotorLejos().startSynchronization();
@@ -269,11 +286,11 @@ public class VehiculeControler {
 	
 	/**
 	 * Methode permettant au robot de tourner vers la gauche.
-	 * @param vitesseAjout : correspond à la vitesse qu'on incrémente au moteur
-	 * @param vitesseMax : correspond à la vitesse maximum que peut atteindre le robot en marche avant.
+	 * @param vitesseAjout : correspond ï¿½ la vitesse qu'on incrï¿½mente au moteur
+	 * @param vitesseMax : correspond ï¿½ la vitesse maximum que peut atteindre le robot en marche avant.
 	 */
 	public void left(int vitesseAjout,int vitesseMax) {
-		//Si le moteur est en marche avant ou en marche arrière, alors on fait tourner le robot vers la gauche
+		//Si le moteur est en marche avant ou en marche arriï¿½re, alors on fait tourner le robot vers la gauche
 		//On augmente plus la vitesse de rotation du moteur droit par rapport a celui du moteur gauche.
 		//Ainsi, le robot va tourner vers la gauche
 		if(!capteurPresence.obstacleDetect()) {
@@ -318,11 +335,11 @@ public class VehiculeControler {
 	
 	/**
 	 * Methode permettant au robot de tourner vers la droite.
-	 * @param vitesseAjout : correspond à la vitesse qu'on incrémente au moteur
-	 * @param vitesseMax : correspond à la vitesse maximum que peut atteindre le robot en marche avant.
+	 * @param vitesseAjout : correspond ï¿½ la vitesse qu'on incrï¿½mente au moteur
+	 * @param vitesseMax : correspond ï¿½ la vitesse maximum que peut atteindre le robot en marche avant.
 	 */
 	public void right(int vitesseAjout,int vitesseMax) {
-		//Si le moteur est en marche avant ou en marche arrière, alors on fait tourner le robot vers la droite
+		//Si le moteur est en marche avant ou en marche arriï¿½re, alors on fait tourner le robot vers la droite
 		//On augmente plus la vitesse de rotation du moteur gauche par rapport a celui du moteur droit.
 		//Ainsi, le robot va tourner vers la droite
 		if(!capteurPresence.obstacleDetect()) {
@@ -363,14 +380,14 @@ public class VehiculeControler {
 	}
 	
 	/**
-	 * Methode permettant de faire avance le robot en avant avec une légère trajectoire vers la gauche. (Diagonale gauche avant)
-	 * @param vitesseAjout : correspond à la vitesse qu'on incrémente au moteur
-	 * @param vitesseMax : correspond à la vitesse maximum que peut atteindre le robot en marche avant.
+	 * Methode permettant de faire avance le robot en avant avec une lï¿½gï¿½re trajectoire vers la gauche. (Diagonale gauche avant)
+	 * @param vitesseAjout : correspond ï¿½ la vitesse qu'on incrï¿½mente au moteur
+	 * @param vitesseMax : correspond ï¿½ la vitesse maximum que peut atteindre le robot en marche avant.
 	 */
 	public void leftForward(int vitesseAjout,int vitesseMax) {
 		//On augmente plus la vitesse de rotation du moteur droit par rapport a celui du moteur gauche.
-		//A la différence des méthode pour tourner, la différence d'accélaration des deux moteurs est moins grande.
-		//Le véhicule a donc une trajectoire ressemblant à une diagonale.
+		//A la diffï¿½rence des mï¿½thode pour tourner, la diffï¿½rence d'accï¿½laration des deux moteurs est moins grande.
+		//Le vï¿½hicule a donc une trajectoire ressemblant ï¿½ une diagonale.
 		if(!capteurPresence.obstacleDetect()) {
 			etatVehicule = Etat.forward;
 			moteurGauche.getMotorLejos().startSynchronization();
@@ -410,14 +427,14 @@ public class VehiculeControler {
 	}
 	
 	/**
-	 * Methode permettant de faire avance le robot en avant avec une légère trajectoire vers la droite. (Diagonale droite avant)
-	 * @param vitesseAjout : correspond à la vitesse qu'on incrémente au moteur
-	 * @param vitesseMax : correspond à la vitesse maximum que peut atteindre le robot en marche avant.
+	 * Methode permettant de faire avance le robot en avant avec une lï¿½gï¿½re trajectoire vers la droite. (Diagonale droite avant)
+	 * @param vitesseAjout : correspond ï¿½ la vitesse qu'on incrï¿½mente au moteur
+	 * @param vitesseMax : correspond ï¿½ la vitesse maximum que peut atteindre le robot en marche avant.
 	 */
 	public void rightForward(int vitesseAjout,int vitesseMax) {
 		//On augmente plus la vitesse de rotation du moteur gauche par rapport a celui du moteur droit.
-		//A la différence des méthode pour tourner, la différence d'accélaration des deux moteurs est moins grande.
-		//Le véhicule a donc une trajectoire ressemblant à une diagonale.
+		//A la diffï¿½rence des mï¿½thode pour tourner, la diffï¿½rence d'accï¿½laration des deux moteurs est moins grande.
+		//Le vï¿½hicule a donc une trajectoire ressemblant ï¿½ une diagonale.
 		if(!capteurPresence.obstacleDetect()) {
 			etatVehicule = Etat.forward;
 			moteurGauche.getMotorLejos().startSynchronization();
@@ -457,14 +474,14 @@ public class VehiculeControler {
 	}
 
 	/**
-	 * Methode permettant de faire reculer le robot en arrire avec une légère trajectoire vers la gauche. (Diagonale gauche arrière)
-	 * @param vitesseAjout : correspond à la vitesse qu'on incrémente au moteur
-	 * @param vitesseMax : correspond à la vitesse maximum que peut atteindre le robot en marche avant.
+	 * Methode permettant de faire reculer le robot en arrire avec une lï¿½gï¿½re trajectoire vers la gauche. (Diagonale gauche arriï¿½re)
+	 * @param vitesseAjout : correspond ï¿½ la vitesse qu'on incrï¿½mente au moteur
+	 * @param vitesseMax : correspond ï¿½ la vitesse maximum que peut atteindre le robot en marche avant.
 	 */
 	public void leftBackward(int vitesseAjout,int vitesseMax) {
 		//On augmente plus la vitesse de rotation du moteur droit par rapport a celui du moteur gauche.
-		//A la différence des méthode pour tourner, la différence d'accélaration des deux moteurs est moins grande.
-		//Le véhicule a donc une trajectoire ressemblant à une diagonale.
+		//A la diffï¿½rence des mï¿½thode pour tourner, la diffï¿½rence d'accï¿½laration des deux moteurs est moins grande.
+		//Le vï¿½hicule a donc une trajectoire ressemblant ï¿½ une diagonale.
 		if(!capteurContacte.contactObstacle()) {
 			if (etatVehicule == Etat.neutral) {
 				etatVehicule = Etat.backward;
@@ -488,7 +505,7 @@ public class VehiculeControler {
 				} else {
 					System.out.println("up() : la vitesse est au maximum");
 				}
-				//Si l'état est déjà à backward alors on augmente les vitesses des moteurs
+				//Si l'ï¿½tat est dï¿½jï¿½ ï¿½ backward alors on augmente les vitesses des moteurs
 			} else if (etatVehicule == Etat.backward) {
 				moteurGauche.getMotorLejos().startSynchronization();
 				moteurGauche.setVitesse(vitesse*2);
@@ -533,7 +550,7 @@ public class VehiculeControler {
 					System.out.println("up() : la vitesse est au maximum");
 				}
 			}else {
-				System.out.println("backward() : impossible de faire tourner le moteur en arrière");
+				System.out.println("backward() : impossible de faire tourner le moteur en arriï¿½re");
 			}
 		}else {
 			moteurGauche.getMotorLejos().startSynchronization();
@@ -551,14 +568,14 @@ public class VehiculeControler {
 	}
 
 	/**
-	 * Methode permettant de faire reculer le robot en arrire avec une légère trajectoire vers la droite. (Diagonale droite arrière)
-	 * @param vitesseAjout : correspond à la vitesse qu'on incrémente au moteur
-	 * @param vitesseMax : correspond à la vitesse maximum que peut atteindre le robot en marche avant.
+	 * Methode permettant de faire reculer le robot en arrire avec une lï¿½gï¿½re trajectoire vers la droite. (Diagonale droite arriï¿½re)
+	 * @param vitesseAjout : correspond ï¿½ la vitesse qu'on incrï¿½mente au moteur
+	 * @param vitesseMax : correspond ï¿½ la vitesse maximum que peut atteindre le robot en marche avant.
 	 */
 	public void rightBackward(int vitesseAjout,int vitesseMax) {
 		//On augmente plus la vitesse de rotation du moteur gauche par rapport a celui du moteur droit.
-		//A la différence des méthode pour tourner, la différence d'accélaration des deux moteurs est moins grande.
-		//Le véhicule a donc une trajectoire ressemblant à une diagonale.
+		//A la diffï¿½rence des mï¿½thode pour tourner, la diffï¿½rence d'accï¿½laration des deux moteurs est moins grande.
+		//Le vï¿½hicule a donc une trajectoire ressemblant ï¿½ une diagonale.
 		if(!capteurContacte.contactObstacle()) {
 			if (etatVehicule == Etat.neutral) {
 				etatVehicule = Etat.backward;
@@ -582,7 +599,7 @@ public class VehiculeControler {
 				} else {
 					System.out.println("up() : la vitesse est au maximum");
 				}
-				//Si l'état est déjà à backward alors on augmente les vitesses des moteurs
+				//Si l'ï¿½tat est dï¿½jï¿½ ï¿½ backward alors on augmente les vitesses des moteurs
 			} else if (etatVehicule == Etat.backward) {
 				moteurGauche.getMotorLejos().startSynchronization();
 				moteurGauche.setVitesse(vitesse*4);
@@ -627,7 +644,7 @@ public class VehiculeControler {
 					System.out.println("up() : la vitesse est au maximum");
 				}
 			}else {
-				System.out.println("backward() : impossible de faire tourner le moteur en arrière");
+				System.out.println("backward() : impossible de faire tourner le moteur en arriï¿½re");
 			}
 		}else {
 			moteurGauche.getMotorLejos().startSynchronization();
@@ -649,8 +666,8 @@ public class VehiculeControler {
 	 * Simulation d'une urgence sur le robot
 	 */
 	public void urgency() {
-		//Passage des moteurs à l'arrêt et l'état du robot à urgency
-		//On conserve la vitesse actuelle des moteurs et l'état du moteur
+		//Passage des moteurs ï¿½ l'arrï¿½t et l'ï¿½tat du robot ï¿½ urgency
+		//On conserve la vitesse actuelle des moteurs et l'ï¿½tat du moteur
 		moteurGauche.getMotorLejos().startSynchronization();
 		saveVitesseMoteurGauche = moteurGauche.getVitesse();
 		saveVitesseMoteurDroit = moteurDroit.getVitesse();
@@ -666,8 +683,8 @@ public class VehiculeControler {
 	 * Simulation d'une panne sur le robot
 	 */
 	public void breakdown() {
-		//Passage des moteurs à l'arrêt et l'état du robot à panne
-		//On conserve la vitesse actuelle des moteurs et l'état du moteur
+		//Passage des moteurs ï¿½ l'arrï¿½t et l'ï¿½tat du robot ï¿½ panne
+		//On conserve la vitesse actuelle des moteurs et l'ï¿½tat du moteur
 		moteurGauche.getMotorLejos().startSynchronization();
 		saveVitesseMoteurGauche = moteurGauche.getVitesse();
 		saveVitesseMoteurDroit = moteurDroit.getVitesse();
@@ -680,8 +697,8 @@ public class VehiculeControler {
 	}
 	
 	/**
-	 * Restauration des anciennes valeurs de la vitesse et de l'état du robot
-	 * Méthode qui est appelé après un état de panne ou urgency
+	 * Restauration des anciennes valeurs de la vitesse et de l'ï¿½tat du robot
+	 * Mï¿½thode qui est appelï¿½ aprï¿½s un ï¿½tat de panne ou urgency
 	 */
 	public void restore() {
 		moteurGauche.getMotorLejos().startSynchronization();
@@ -689,11 +706,11 @@ public class VehiculeControler {
 		moteurDroit.setVitesse(saveVitesseMoteurDroit);
 		moteurGauche.getMotorLejos().endSynchronization();
 		etatVehicule = saveEtatVehicule;
-		System.out.println("restore() : le véhicule restaure son état");
+		System.out.println("restore() : le vï¿½hicule restaure son ï¿½tat");
 	}
 
 	/**
-	 * Retourne l'etat du véhicule
+	 * Retourne l'etat du vï¿½hicule
 	 * @return Etat
 	 */
 	public Etat getEtatVehicule() {
@@ -701,7 +718,7 @@ public class VehiculeControler {
 	}
 
 	/**
-	 * Modifie l'etat du véhicule
+	 * Modifie l'etat du vï¿½hicule
 	 * @param etatVehicule
 	 */
 	public void setEtatVehicule(Etat etatVehicule) {
@@ -755,4 +772,9 @@ public class VehiculeControler {
 	public void setMoteurDroit(Motor moteurDroit) {
 		this.moteurDroit = moteurDroit;
 	}
+
+	public void setAutomatic(boolean automatic) {
+		this.automatic = automatic;
+	}
+	
 }
