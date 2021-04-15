@@ -1,8 +1,14 @@
 package dispatcher;
 
+import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
 import lejos.hardware.Bluetooth;
 import lejos.remote.nxt.BTConnection;
 import lejos.remote.nxt.BTConnector;
@@ -110,6 +116,12 @@ public class Dispatcher {
 					case 14:
 						vehicule.arret();
 						break;
+					case 99:
+						connectClient("10.1.2.1", "80");
+						
+					case 84:
+						vehicule.modeAutomatic(60, 60);
+						
 					case 9:
 						vehicule.stop();
 						stop = false;
@@ -153,5 +165,30 @@ public class Dispatcher {
 		out = BTConnect.openDataOutputStream();
 		in = BTConnect.openDataInputStream();
 	}
+	public static void connectClient(String hostName, String Port) {
+       
+ 
+        String hostname = hostName;
+        int port = Integer.parseInt(Port);
+ 
+        try (Socket socket = new Socket(hostname, port)) {
+ 
+            InputStream input = socket.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+ 
+            String time = reader.readLine();
+ 
+            System.out.println(time);
+ 
+ 
+        } catch (UnknownHostException ex) {
+ 
+            System.out.println("Server not found: " + ex.getMessage());
+ 
+        } catch (IOException ex) {
+ 
+            System.out.println("I/O error: " + ex.getMessage());
+        }
+    }
 
 }

@@ -20,7 +20,8 @@ public class VehiculeControler {
 	private CapteurObstacle capteurPresence;
 	private CapteurContacte capteurContacte;
 	int vitesseRange = 25;
-
+	private boolean automatic;
+	
 	/**
 	 * Mise en place du VehiculeControler avec l'instanciation des moteurs
 	 */
@@ -33,10 +34,25 @@ public class VehiculeControler {
 		this.capteurContacte = new CapteurContacte(SensorPort.S1);
 		RegulatedMotor T[] = { this.moteurDroit.getMotorLejos() };
 		this.moteurGauche.getMotorLejos().synchronizeWith(T);
+		this.automatic=false; 
 		vitesse = 0;
 		saveVitesseMoteurGauche = 0;
 		saveVitesseMoteurDroit = 0;
 	}
+	
+	// mode autoatic
+		public void modeAutomatic(int vitesseAjout, int vitesseMax) {
+			
+			this.automatic = true;
+			this.forward(vitesseAjout, vitesseMax);
+			this.backward(vitesseAjout, vitesseMax);
+			this.left(vitesseAjout, vitesseMax);
+			this.backward(vitesseAjout, vitesseMax);
+			this.right(vitesseAjout, vitesseMax);
+			
+			System.out.println("Robot en mode Automatic");
+			//this.setAutomatic(false);
+			}
 
 	/**
 	 * Methode permettant de passer le véhicule d'état off à l'état neutral
