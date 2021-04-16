@@ -11,7 +11,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="src.test/mockito-all-1.9.5-sources.jar"/>
 	<classpathentry kind="lib" path="src.test/metier/org.mockito.source_1.9.5.v201605172210.jar"/>
-	<classpathentry kind="lib" path="C:/Users/user/Documents/m1Miage/IL/TP-IL-2020-Alt/TP-IL-2020-Alt/MPX2IP020-APP-DP-2020/DPAC-A5-BOIRO-CHARIER-HAMON-OUZAMOU/DPAC-A-BOIRO-CHARIER-HAMON-OUZAMOU/Robot_LeJosEV3/mockito-all-1.8.5.jar"/>
-	<classpathentry kind="lib" path="C:/Users/user/Desktop/mockito-all-1.8.5.jar"/>
+	<classpathentry kind="lib" path="mockito-all-1.8.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

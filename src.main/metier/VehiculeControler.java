@@ -40,19 +40,23 @@ public class VehiculeControler {
 		saveVitesseMoteurDroit = 0;
 	}
 	
-	// mode autoatic
-		public void modeAutomatic(int vitesseAjout, int vitesseMax) {
-			
-			this.automatic = true;
+	/**
+	 *Mode automatique
+	 */
+	public void modeAutomatic(int vitesseAjout, int vitesseMax) {
+		
+		while(!capteurPresence.obstacleDetect()) {
 			this.forward(vitesseAjout, vitesseMax);
-			this.backward(vitesseAjout, vitesseMax);
-			this.left(vitesseAjout, vitesseMax);
-			this.backward(vitesseAjout, vitesseMax);
-			this.right(vitesseAjout, vitesseMax);
-			
-			System.out.println("Robot en mode Automatic");
-			//this.setAutomatic(false);
-			}
+			vitesseAjout++;
+			if(vitesseAjout %3 ==0) {
+				vitesseMax++;
+			}		
+		}
+
+		this.arret();
+		System.out.println("Mode automatique () : Passage au mode manuel");
+	
+}
 
 	/**
 	 * Methode permettant de passer le véhicule d'état off à l'état neutral

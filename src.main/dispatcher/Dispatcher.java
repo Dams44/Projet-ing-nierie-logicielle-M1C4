@@ -117,11 +117,12 @@ public class Dispatcher {
 						vehicule.arret();
 						break;
 					case 99:
-						connectClient("10.1.2.1", "80");
-						
+						//Connexion Portail
+						connectClient("192.168.43.212", "80");
+						break;
 					case 84:
-						vehicule.modeAutomatic(60, 60);
-						
+						vehicule.modeAutomatic(40, 900);
+						break;
 					case 9:
 						vehicule.stop();
 						stop = false;
