@@ -41,7 +41,11 @@ public class VehiculeControler {
 	}
 	
 	/**
-	 *Mode automatique
+	 * Mode automatique
+	 * Méthode permettant de faire avancer automatique le robot jusqu'a la détection d'un obstacle
+	 *
+	 * @param vitesseAjout : vitesse qu'on incrémente au moteur
+	 * @param vitesseMax   : vitesse maximum que peut atteindre le robot en marche avant
 	 */
 	public void modeAutomatic(int vitesseAjout, int vitesseMax) {
 		

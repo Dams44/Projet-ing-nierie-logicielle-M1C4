@@ -121,6 +121,7 @@ public class Dispatcher {
 						connectClient("192.168.43.212", "80");
 						break;
 					case 84:
+						//Mode automatique
 						vehicule.modeAutomatic(40, 900);
 						break;
 					case 9:
@@ -156,7 +157,7 @@ public class Dispatcher {
 	}
 
 	
-	//Méthode permettant la connection avec le smartphone
+	//Méthode permettant la connexion Bluetooth avec la télécommande
 	public static void connect() {
 		System.out.println("En attente");
 		//Mise en place de la connection bluetooth
@@ -166,6 +167,14 @@ public class Dispatcher {
 		out = BTConnect.openDataOutputStream();
 		in = BTConnect.openDataInputStream();
 	}
+	
+	/**
+	 * Connexion Wi-fi avec le portail
+	 * Méthode permettant la connexion Wi-Fi avec le portail
+	 *
+	 * @param hostName : Adresse IP du portail
+	 * @param Port   : Port de connexion du portail
+	 */
 	public static void connectClient(String hostName, String Port) {
        
  
