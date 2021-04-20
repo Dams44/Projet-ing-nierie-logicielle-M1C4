@@ -9,9 +9,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.*;
 
+<<<<<<< HEAD
 
 import ressources.Etat;
 
+=======
+import ressources.Etat;
+>>>>>>> refs/remotes/origin/test
 /**
 * Classe DispacherTest.
 * Cette classe définit l'ensemble des tests unitaires du système.

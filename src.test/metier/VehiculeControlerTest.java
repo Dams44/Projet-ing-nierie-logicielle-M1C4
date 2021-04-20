@@ -6,16 +6,15 @@ import org.junit.*;
 
 import ressources.Etat;
 
-public class VehiculeControlertest {
+public class VehiculeControlerTest {
 
-	public VehiculeControler vehicule;
+	public VehiculeControler vehicule= new VehiculeControler();
 	
-	
-	@Before
+	/*@Before
 	public void init() {
 		
-		vehicule = new VehiculeControler();
-	}
+		
+	}*/
 	
 	/**
 	 * Test setEtatVehicule()

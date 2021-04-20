@@ -44,4 +44,8 @@ public class MotorTest {
 		
 	}
 	
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> refs/remotes/origin/test
